@@ -15,8 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/categories")
 @CrossOrigin
-public class CategoriesController
-{
+public class CategoriesController {
     private final CategoryDao categoryDao;
     private final ProductDao productDao;
 
@@ -26,23 +25,23 @@ public class CategoriesController
         this.productDao = productDao;
     }
 
-   @GetMapping(path = "/categories")
+    @GetMapping(path = "/categories")
     public List<Category> getAll() {
         try {
             return categoryDao.getAllCategories();
 
-        } catch (Exception ex){
+        } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong.", ex);
 
         }
 
     }
 
-     @GetMapping(path = "/{id}")
+    @GetMapping(path = "/{id}")
     public Category getById(@PathVariable int id) {
         Category category = categoryDao.getById(id);
-        if (category == null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Category not found.");
+        if (category == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found.");
         }
         return category;
     }
@@ -50,15 +49,15 @@ public class CategoriesController
     // the url to return all products in category 1 would look like this
     // https://localhost:8080/categories/1/products
     @GetMapping(path = "/{categoryId}/products")
-    public List<Product> getProductsById(@PathVariable int categoryId)
-    {
-       try {
-           return productDao.listByCategoryId(categoryId);
-       } catch (Exception ex){
-           throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Something went wrong.", ex);
-       }
+    public List<Product> getProductsById(@PathVariable int categoryId) {
+        try {
+            return productDao.listByCategoryId(categoryId);
+        } catch (Exception ex) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong.", ex);
+        }
 
     }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -66,29 +65,38 @@ public class CategoriesController
         try {
             return categoryDao.create(category);
 
-        } catch (Exception ex){
+        } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong.", ex);
 
         }
 
     }
 
-   @PutMapping(path = "/{id}")
-   @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping(path = "/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void updateCategory(@PathVariable int id, @RequestBody Category category) {
         try {
             categoryDao.update(id, category);
 
-        } catch (Exception ex){
+        } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong.", ex);
         }
     }
 
+@DeleteMapping(path = "/{id}")
+@ResponseStatus(value = HttpStatus.NO_CONTENT)
+@PreAuthorize("hasRole('Role_ADMIN')")
+    public void deleteCategory(@PathVariable int id) {
+        try {
+            Category category = categoryDao.getById(id);
+            if (category == null){
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found.");
 
-    // add annotation to call this method for a DELETE action - the url path must include the categoryId
-    // add annotation to ensure that only an ADMIN can call this function
-    public void deleteCategory(@PathVariable int id)
-    {
-        // delete the category by id
+            }
+            categoryDao.delete(id);
+        } catch (Exception ex) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong.", ex);
+        }
     }
+
 }

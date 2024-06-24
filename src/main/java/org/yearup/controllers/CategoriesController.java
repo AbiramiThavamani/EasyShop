@@ -2,6 +2,7 @@ package org.yearup.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -38,12 +39,12 @@ public class CategoriesController {
     }
 
     @GetMapping(path = "/{id}")
-    public Category getById(@PathVariable int id) {
+    public ResponseEntity<Category> getById(@PathVariable int id) {
         Category category = categoryDao.getById(id);
         if (category == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found.");
         }
-        return category;
+        return ResponseEntity.ok(category);
     }
 
     // the url to return all products in category 1 would look like this

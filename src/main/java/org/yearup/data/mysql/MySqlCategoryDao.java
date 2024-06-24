@@ -14,16 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
-{
-    public MySqlCategoryDao(DataSource dataSource)
-    {
+public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
+    public MySqlCategoryDao(DataSource dataSource) {
         super(dataSource);
     }
 
     @Override
-    public List<Category> getAllCategories()
-    {
+    public List<Category> getAllCategories() {
         List<Category> categories = new ArrayList<>();
 
         String sql = "SELECT * FROM categories";
@@ -33,12 +30,12 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
 
             ResultSet row = statement.executeQuery();
 
-            while (row.next()){
+            while (row.next()) {
                 Category category = mapRow(row);
                 categories.add(category);
             }
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return categories;
@@ -55,46 +52,63 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
 
             ResultSet row = statement.executeQuery();
 
-            if (row.next()){
+            if (row.next()) {
                 return mapRow(row);
             } else {
                 // category not found
                 return null;
             }
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
     }
 
     @Override
-    public Category create(Category category)
-    {
-        // create a new category
-        return null;
+    public Category create(Category category) {
+
+        String sql = "INSERT INTO  categories (name, description) VALUES (? ?)";
+
+        try (Connection connection = getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            statement.setString(1, category.getName());
+            statement.setString(2, category.getDescription());
+
+            int affectedRows = statement.executeUpdate();
+
+            if (affectedRows > 0) {
+                ResultSet generatedKeys = statement.getGeneratedKeys();
+
+                if (generatedKeys.next()) {
+                    int categoryId = generatedKeys.getInt(1);
+                    category.setCategoryId(categoryId);
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return category;
     }
 
     @Override
-    public void update(int categoryId, Category category)
-    {
+    public void update(int categoryId, Category category) {
         // update category
     }
 
     @Override
-    public void delete(int categoryId)
-    {
+    public void delete(int categoryId) {
         // delete category
     }
 
-    private Category mapRow(ResultSet row) throws SQLException
-    {
+    private Category mapRow(ResultSet row) throws SQLException {
         int categoryId = row.getInt("category_id");
         String name = row.getString("name");
         String description = row.getString("description");
 
-        Category category = new Category()
-        {{
+        Category category = new Category() {{
             setCategoryId(categoryId);
             setName(name);
             setDescription(description);

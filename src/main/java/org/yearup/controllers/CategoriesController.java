@@ -49,7 +49,7 @@ public class CategoriesController
 
     // the url to return all products in category 1 would look like this
     // https://localhost:8080/categories/1/products
-    @GetMapping("/{categoryId}/products")
+    @GetMapping(path = "/{categoryId}/products")
     public List<Product> getProductsById(@PathVariable int categoryId)
     {
        try {
@@ -73,11 +73,15 @@ public class CategoriesController
 
     }
 
-    // add annotation to call this method for a PUT (update) action - the url path must include the categoryId
-    // add annotation to ensure that only an ADMIN can call this function
-    public void updateCategory(@PathVariable int id, @RequestBody Category category)
-    {
-        // update the category by id
+   @PutMapping(path = "/{id}")
+   @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void updateCategory(@PathVariable int id, @RequestBody Category category) {
+        try {
+            categoryDao.update(id, category);
+
+        } catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong.", ex);
+        }
     }
 
 

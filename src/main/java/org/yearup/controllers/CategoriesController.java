@@ -1,7 +1,9 @@
 package org.yearup.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.yearup.data.CategoryDao;
 import org.yearup.data.ProductDao;
 import org.yearup.models.Category;
@@ -23,33 +25,38 @@ public class CategoriesController
         this.productDao = productDao;
     }
 
-   @GetMapping
-    public List<Category> getAll()
-    {
+   @GetMapping(path = "/categories")
+    public List<Category> getAll() {
         try {
             return categoryDao.getAllCategories();
 
-        } catch (Exception e){
-            throw new Error("Failed to fetch user details");
+        } catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong.", ex);
 
         }
 
     }
 
-     
-    public Category getById(@PathVariable int id)
-    {
-        // get the category by id
-        return null;
+     @GetMapping(path = "/{id}")
+    public Category getById(@PathVariable int id) {
+        Category category = categoryDao.getById(id);
+        if (category == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Category not found.");
+        }
+        return category;
     }
 
     // the url to return all products in category 1 would look like this
     // https://localhost:8080/categories/1/products
-    @GetMapping("{categoryId}/products")
+    @GetMapping("/{categoryId}/products")
     public List<Product> getProductsById(@PathVariable int categoryId)
     {
-        // get a list of product by categoryId
-        return null;
+       try {
+           return productDao.listByCategoryId(categoryId);
+       } catch (Exception ex){
+           throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Something went wrong.", ex);
+       }
+
     }
 
     // add annotation to call this method for a POST action

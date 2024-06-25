@@ -84,13 +84,13 @@ public class CategoriesController {
         }
     }
 
-@DeleteMapping(path = "/{id}")
-@ResponseStatus(value = HttpStatus.NO_CONTENT)
-@PreAuthorize("hasRole('Role_ADMIN')")
+    @DeleteMapping(path = "/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasRole('Role_ADMIN')")
     public void deleteCategory(@PathVariable int id) {
         try {
             Category category = categoryDao.getById(id);
-            if (category == null){
+            if (category == null) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found.");
 
             }

@@ -114,8 +114,14 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
     public void delete(int categoryId) {
         String sql = "DELETE FROM categories WHERE category_id = ?";
 
-        try {
+        try (Connection connection = getConnection()){
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, categoryId);
 
+            statement.executeUpdate();
+
+        } catch (SQLException e){
+            throw new RuntimeException(e);
         }
     }
 
@@ -124,11 +130,11 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
         String name = row.getString("name");
         String description = row.getString("description");
 
-        Category category = new Category() {{
-            setCategoryId(categoryId);
-            setName(name);
-            setDescription(description);
-        }};
+        Category category = new Category();
+            category.setCategoryId(categoryId);
+            category.setName(name);
+            category.setDescription(description);
+
 
         return category;
     }

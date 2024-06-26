@@ -10,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static org.yearup.data.mysql.MySqlProductDao.mapRow;
 
 
 @Component
@@ -21,7 +20,6 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
 
     @Override
     public ShoppingCart getByUserId(int userId) {
-
         String sql = "SELECT * FROM shopping_cart WHERE user_id = ?";
 
         try (Connection connection = getConnection()) {
@@ -29,17 +27,19 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
             statement.setInt(1, userId);
 
             ResultSet resultSet = statement.executeQuery();
+
             if (resultSet.next()) {
 
             } else {
                 return null;
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
         return null;
     }
+
 
     @Override
     public void addItemToCart(int userId) {

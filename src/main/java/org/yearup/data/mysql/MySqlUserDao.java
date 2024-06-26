@@ -126,9 +126,9 @@ public class MySqlUserDao extends MySqlDaoBase implements UserDao
         return null;
     }
 
+
     @Override
-    public int getIdByUsername(String username)
-    {
+    public int getIdByUsername(String username) {
         User user = getByUserName(username);
 
         if(user != null)
@@ -137,6 +137,7 @@ public class MySqlUserDao extends MySqlDaoBase implements UserDao
         }
 
         return -1;
+
     }
 
     @Override

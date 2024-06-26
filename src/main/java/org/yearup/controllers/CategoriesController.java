@@ -26,7 +26,7 @@ public class CategoriesController {
         this.productDao = productDao;
     }
 
-    @GetMapping(path = "/categories")
+    @GetMapping("/categories")
     public List<Category> getAll() {
         try {
             return categoryDao.getAllCategories();
@@ -38,7 +38,7 @@ public class CategoriesController {
 
     }
 
-    @GetMapping(path = "/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Category> getById(@PathVariable int id) {
         Category category = categoryDao.getById(id);
         if (category == null) {
@@ -47,9 +47,8 @@ public class CategoriesController {
         return ResponseEntity.ok(category);
     }
 
-    // the url to return all products in category 1 would look like this
-    // https://localhost:8080/categories/1/products
-    @GetMapping(path = "/{categoryId}/products")
+
+    @GetMapping("/{categoryId}/products")
     public List<Product> getProductsById(@PathVariable int categoryId) {
         try {
             return productDao.listByCategoryId(categoryId);
@@ -73,7 +72,7 @@ public class CategoriesController {
 
     }
 
-    @PutMapping(path = "/{id}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void updateCategory(@PathVariable int id, @RequestBody Category category) {
         try {
@@ -84,9 +83,9 @@ public class CategoriesController {
         }
     }
 
-    @DeleteMapping(path = "/{id}")
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('Role_ADMIN')")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteCategory(@PathVariable int id) {
         try {
             Category category = categoryDao.getById(id);

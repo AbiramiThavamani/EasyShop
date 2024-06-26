@@ -26,7 +26,7 @@ public class CategoriesController {
         this.productDao = productDao;
     }
 
-    @GetMapping("/categories")
+    @GetMapping("")
     public List<Category> getAll() {
         try {
             return categoryDao.getAllCategories();
@@ -84,14 +84,12 @@ public class CategoriesController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('Role_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void deleteCategory(@PathVariable int id) {
+    public void deleteCategory(@PathVariable int id, @RequestBody Category category) {
         try {
-            Category category = categoryDao.getById(id);
-            if (category == null) {
+            if (null == categoryDao.getById(id)) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found.");
-
             }
             categoryDao.delete(id);
         } catch (Exception ex) {

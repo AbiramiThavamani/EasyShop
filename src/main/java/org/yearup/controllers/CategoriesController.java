@@ -14,7 +14,7 @@ import org.yearup.models.Product;
 import java.util.List;
 
 @RestController
-@RequestMapping("/categories")
+@RequestMapping("categories")
 @CrossOrigin
 public class CategoriesController {
     private final CategoryDao categoryDao;
@@ -38,13 +38,13 @@ public class CategoriesController {
 
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Category> getById(@PathVariable int id) {
+    @GetMapping("{id}")
+    public Category getById(@PathVariable int id) {
         Category category = categoryDao.getById(id);
         if (category == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found.");
         }
-        return ResponseEntity.ok(category);
+        return category;
     }
 
 
@@ -72,7 +72,7 @@ public class CategoriesController {
 
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void updateCategory(@PathVariable int id, @RequestBody Category category) {
         try {
@@ -83,12 +83,12 @@ public class CategoriesController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteCategory(@PathVariable int id, @RequestBody Category category) {
         try {
-            if (null == categoryDao.getById(id)) {
+            if (categoryDao.getById(id) == null) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found.");
             }
             categoryDao.delete(id);

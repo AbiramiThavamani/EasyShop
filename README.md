@@ -1,14 +1,21 @@
 # Project Title
 
-
-
+EasyShop
 
 ## Description of the Project
-
-
+EasyShop is an online shop application it contains backend code for easyShop, an online shop application.
+Spring Boot based platform that handles various aspects of online shopping, including user authentication,
+product management, and order processing. Spring boot framework for rapid development and easy configuration. provides built_in support
+for dependency injection, making the code modular and easier to maintain. Used mysql for database management and implement a
+spring security for user authentication and authorization its ensure the authorized user can access certain endpoints.
+A RESTful API backend exposes the various operations such as retrieving products, managing shopping cart, and processing orders.
+The Shopping cart controller class provides methods for handling shopping cart-related actions. The project has been divided into two 
+phase, each focusing on specific tasks and bug fix. Development spring boot tools for swapping, making the development process 
+more efficient.
 
 ## User Stories
 
+Click [here]([https://github.com/users/AbiramiThavamani/projects/8]
 
 ### Prerequisites
 
@@ -31,29 +38,46 @@ Follow these steps to get your application running within IntelliJ IDEA:
 - JAVA 17
 
 ## Demo
+PostMan
 
+<img src="EasyShop-postman.gif">
 
+EasyShop Web Application
+
+<img src="EasyShop-web application.gif">
+
+Bug 1 
+missing clause in the sql query adding the following clause to the query
+<img src="bug.PNG">
+
+search method required maximum price
+<img src="bug1.PNG">
+
+Bug 2
+Product update to fix modifying code inside the product Controller class method
+<img src="bug2.PNG">
 
 ## Future Work
 
 Additional feature to be developed.
 
-
+- Implement an in-app messaging system for direct communication between customer and support.
 
 Improvement of current functionalities.
 
-
+- Enable customers to leave reviews and rating for the products.
 
 ## Resources
-workbook6 https://app.schoology.com/attachment/2926311580/source/365016068d520c2d4d5e7cac7c6a407a.pdf
+workbook7 https://app.schoology.com/course/7241485878/materials/gp/7241486219
 
-workbook2 String loops Array https://app.schoology.com/attachment/2926311503/source/ad7bfe6ddf41e4c168a52c81c3e733e9.pdf
+workbook8 https://app.schoology.com/course/7241485878/materials/gp/7241486247
 
-workbook5 https://app.schoology.com/attachment/2926311568/source/9a6075fb731d9f05cf30c5f9f48c3857.pdf
-
+workbook9 https://app.schoology.com/course/7241485878/materials/gp/7241486256
 
 
 ## Thanks
 
-- Thank you to Raymond Maroun for continuous support and guidance.
+- Thank you to Raymond Maroun for continuous support and guidance and continuous encouragement
+throughout this journey.
+
 

@@ -38,24 +38,38 @@ Follow these steps to get your application running within IntelliJ IDEA:
 - JAVA 17
 
 ## Demo
+
 PostMan
+
 
 <img src="EasyShop-postman.gif">
 
+
 EasyShop Web Application
+
 
 <img src="EasyShop-web application.gif">
 
-Bug 1 
+Bug-1 
+
 missing clause in the sql query adding the following clause to the query
+
+
 <img src="bug.PNG">
 
 search method required maximum price
+
+
 <img src="bug1.PNG">
 
-Bug 2
+Bug-2
+
+
 Product update to fix modifying code inside the product Controller class method
+
+
 <img src="bug2.PNG">
+
 
 ## Future Work
 
